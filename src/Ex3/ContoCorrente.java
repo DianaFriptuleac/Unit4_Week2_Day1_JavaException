@@ -6,6 +6,14 @@ public class ContoCorrente {
     private final int maxMovimenti = 50;
     private double saldo;
 
+
+    public ContoCorrente(String titolare, double saldo) {
+        this.titolare = titolare;
+        this.saldo = saldo;
+        this.nMovimenti = 0;
+    }
+
+    //Getter e setter
     public String getTitolare() {
         return titolare;
     }
@@ -22,16 +30,17 @@ public class ContoCorrente {
         return saldo;
     }
 
-    public ContoCorrente(String titolare, double saldo) {
-        this.titolare = titolare;
-        this.saldo = saldo;
-        this.nMovimenti = 0;
-    }
-
-    public void preleva(double x) {
+    //Lancio un'eccezione se il saldo è negativo
+    public void preleva(double x) throws BancaException {
         if (nMovimenti < maxMovimenti) saldo = saldo - x;
         else saldo = saldo - x - 0.50;
         nMovimenti++;
+
+        //se il saldo dopo la sottrazione è
+        //minore di zero il metodo lancia un'eccezione di tipo BancaException
+        if(saldo < 0){
+            throw new BancaException("Il conto corrente è in rosso!");
+        }
     }
 
     public double restituisciSaldo() {
